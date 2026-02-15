@@ -1,37 +1,50 @@
-# command-line-task-tracker-
-# 📝 Command Line Task Tracker (Python)
+tasks = []
 
-A simple and interactive **command-line task tracker** built using core Python concepts.  
-This project is ideal for beginners to practice **lists, loops, conditionals, and input validation**.
+while True:
+    print("\nCommands: add, view, complete, exit")
+    command = input("Enter command: ").strip().lower()
 
----
+    if command == "add":
+        task = input("Enter task description: ").strip()
+        if task:
+            tasks.append(task)
+            print(f'Task "{task}" added.')
+        else:
+            print("Task cannot be empty.")
 
-## 🚀 Features
+    elif command == "view":
+        if not tasks:
+            print("No tasks available.")
+        else:
+            print("\nYour Tasks:")
+            for i, task in enumerate(tasks, start=1):
+                print(f"{i}. {task}")
 
-- Add new tasks
-- View all tasks using **1-based indexing**
-- Mark tasks as completed
-- Input validation using `try-except`
-- Graceful program exit with a goodbye message
-- Fully interactive terminal application
+    elif command == "complete":
+        if not tasks:
+            print("No tasks to complete.")
+            continue
 
----
+        try:
+            index = int(input("Enter task number to complete: "))
+            if 1 <= index <= len(tasks):
+                completed_task = tasks[index - 1]
 
-## 🧠 Concepts Used
+                # Option 1: Mark task as completed
+                tasks[index - 1] = "[x] " + completed_task
+                print(f'Task marked as completed: {completed_task}')
 
-- Python Lists
-- `while True` loop
-- Conditional statements (`if / elif / else`)
-- `try-except` for error handling
-- `enumerate()` for indexing
-- User input handling
+                # Option 2 (alternative): Remove task
+                # del tasks[index - 1]
 
----
+            else:
+                print("Invalid task number.")
+        except ValueError:
+            print("Please enter a valid number.")
 
-## 📂 Project Structure
+    elif command == "exit":
+        print("Goodbye! 👋")
+        break
 
-command-line-task-tracker/
-│
-├── task_tracker.py # Main Python script
-├── README.md # Project documentation
-└── .gitignore # Ignored files
+    else:
+        print("Invalid command. Please try again.")
